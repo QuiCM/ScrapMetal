@@ -12,7 +12,7 @@ namespace ScrapMetal
         internal int? _sequence;
         internal string _session;
         internal gateway_identity _identity;
-        private RuntimeConfiguration _configuration;
+        internal RuntimeConfiguration _configuration;
         private ScrapMetalBot _scrapMetal;
 
         public int? LastSequence => _sequence;

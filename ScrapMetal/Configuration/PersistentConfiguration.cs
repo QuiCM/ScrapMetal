@@ -1,25 +1,21 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Reflection;
 using System.Text.Json;
 
 namespace ScrapMetal.Configuration
 {
     public class PersistentConfiguration
     {
-        internal IEnumerable<PropertyInfo> _properties;
-
-        public PersistentConfiguration()
-        {
-            _properties = typeof(PersistentConfiguration).GetProperties();
-        }
-
         public PersistentConfiguration Write()
         {
             using var fs = new FileStream("config", FileMode.Open, FileAccess.Write, FileShare.Read);
             using (var sw = new StreamWriter(fs))
             {
-                sw.Write(JsonSerializer.Serialize(this));
+                sw.Write(JsonSerializer.Serialize(this, GetType(), new JsonSerializerOptions
+                {
+                    WriteIndented = true,
+                }));
             }
 
             return this;

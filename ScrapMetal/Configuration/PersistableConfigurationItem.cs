@@ -48,7 +48,7 @@ namespace ScrapMetal.Configuration
             {
                 throw new InvalidOperationException("Persistable item was initialized without a persistable configuration store.");
             }
-            typeof(PersistentConfiguration).GetProperty(_bindingName).SetValue(_configuration, Value);
+            _configuration.GetType().GetProperty(_bindingName).SetValue(_configuration, Value);
 
             if (persist)
             {

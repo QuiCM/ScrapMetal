@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Buffers;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.WebSockets;
 using System.Threading;
@@ -104,7 +103,18 @@ namespace SpeakEasy
             do
             {
                 ArraySegment<byte> readBuf = new(new byte[1024]);
-                result = await _socket.ReceiveAsync(readBuf, token);
+                try
+                {
+                    result = await _socket.ReceiveAsync(readBuf, token);
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine($"[SpeakEasy: ERROR] {e}");
+                    //If we receive an error while receiving, the websocket will close. So invoke the close event to notify upstreams
+                    CloseCompleted?.Invoke(this, EventArgs.Empty);
+                    return;
+                }
+
                 messageType = result.MessageType;
 
                 if (result.MessageType == WebSocketMessageType.Close)
