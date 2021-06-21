@@ -22,8 +22,8 @@ namespace ScrapMetal
         internal ScrapMetalHeart _heart;
         internal RuntimeConfiguration _configuration;
 
-        private readonly ScrapMetalPersistentConfig _persistentConfig;
-        private readonly Discord.Http _http;
+        private ScrapMetalPersistentConfig _persistentConfig;
+        private Discord.Http _http;
         private readonly CancellationTokenSource _tokenSource;
 
         private bool disposedValue;
@@ -149,7 +149,9 @@ namespace ScrapMetal
                     _tokenSource.Cancel();
                 }
 
-                _configuration = null;
+                _heart = null;
+                _http = null;
+                //Don't null brain or anything used by it
                 disposedValue = true;
             }
         }

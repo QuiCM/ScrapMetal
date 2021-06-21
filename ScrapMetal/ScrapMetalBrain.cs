@@ -17,7 +17,7 @@ namespace ScrapMetal
 
         public int? LastSequence => _sequence;
 
-        internal ScrapMetalBrain()
+        public ScrapMetalBrain()
         {
             Debug.WriteLine("ScrapMetalBrain begins thinking.");
         }
@@ -37,11 +37,13 @@ namespace ScrapMetal
             _identity = new()
             {
                 token = _configuration.AuthToken.Value,
-                intents = 7174
+                intents = (int)(gateway_intent_bitflags.GUILDS | gateway_intent_bitflags.GUILD_MEMBERS | gateway_intent_bitflags.GUILD_MESSAGES | gateway_intent_bitflags.GUILD_MESSAGE_REACTIONS | gateway_intent_bitflags.GUILD_MESSAGE_TYPING)
             };
             _identity.properties.Add("$os", "windows");
             _identity.properties.Add("$browser", "ScrapMetal");
             _identity.properties.Add("$device", "ScrapMetal");
+
+            Debug.WriteLine(_identity.intents);
         }
 
         internal void HandleReadyEvent(gateway_payload payload)
