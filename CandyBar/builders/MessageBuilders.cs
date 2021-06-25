@@ -19,13 +19,13 @@ namespace CandyBar.builders
             return new MessageBuilder();
         }
 
-        public MessageBuilder ToChannel(string channelId)
+        public MessageBuilder SendToChannel(string channelId)
         {
             _message.channel_id = channelId;
             return this;
         }
 
-        public MessageBuilder ReplyTo(message_object message) => ToChannel(message.channel_id);
+        public MessageBuilder InReplyTo(message_object message) => SendToChannel(message.channel_id);
 
         public MessageBuilder WithContent(string content)
         {

@@ -117,7 +117,7 @@ namespace ScrapMetal
             if (message.content.StartsWith("echo") && message.author.id == "164210142789894144")
             {
                 await _scrapMetal._http.CreateMessage(msg =>
-                        msg.ReplyTo(message)
+                        msg.InReplyTo(message)
                         .WithEmbed(embed =>
                             embed.WithTitle("This is an embed title!")
                                  .WithDescription("This is an embed!")
