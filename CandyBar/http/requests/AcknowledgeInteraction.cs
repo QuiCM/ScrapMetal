@@ -7,7 +7,6 @@ using CandyBar.models.objects;
 
 namespace CandyBar
 {
-
     public partial class Discord
     {
         public partial class Http
