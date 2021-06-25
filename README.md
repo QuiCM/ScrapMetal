@@ -1,7 +1,7 @@
 # ScrapMetal
 
 ### Who am I?
-ScrapMetal is a Discord bot stack built in three pieces:
+ScrapMetal is a Discord bot stack built in four pieces:
 * **SpeakEasy** - the communication library
 
 SpeakEasy provides the underlying websocket networking required to communicate with Discord's Gateway API
@@ -23,4 +23,4 @@ The ScrapMetal stack is intended to be a minimalist implementation of a Discord 
 
 ### Why?
 There's a lot of Discord wrappers and libraries out there. Most of them are overly complex, attempt to do too much, unstable, etc.
-The major aim of the ScrapMetal stack is to be small, maintainable, and usable.
+The major aim of the ScrapMetal stack is to be small, maintainable, and usable - it does exactly what it needs to do, and nothing much more. But it should also be pretty straightforward to build onto
