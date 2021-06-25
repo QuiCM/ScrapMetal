@@ -21,12 +21,6 @@ namespace ScrapMetal
             _scrapMetal = scrapMetal;
         }
 
-        internal void Beat()
-        {
-            //We fire and forget this because we don't really need to keep control of it
-            BeatAsync(_beatDelay, _token);
-        }
-
         internal async Task FirstBeat(int delay, CancellationToken token)
         {
             Debug.WriteLine("ScrapMetalHeart starts beating.");
@@ -39,6 +33,8 @@ namespace ScrapMetal
 
             await Task.Delay(randomizedDelay, token);
             await _scrapMetal.SendAsync(JsonSerializer.Serialize(new gateway_heartbeat { d = _scrapMetal._brain.LastSequence }));
+
+            await BeatAsync(delay, token);
         }
 
         private async Task BeatAsync(int delay, CancellationToken token)

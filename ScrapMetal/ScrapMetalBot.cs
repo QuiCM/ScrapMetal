@@ -19,11 +19,10 @@ namespace ScrapMetal
     {
         internal readonly SpeakEasySocket _websocket;
         internal ScrapMetalBrain _brain;
-        internal ScrapMetalHeart _heart;
         internal RuntimeConfiguration _configuration;
 
-        private ScrapMetalPersistentConfig _persistentConfig;
-        private Discord.Http _http;
+        private readonly ScrapMetalPersistentConfig _persistentConfig;
+        internal Discord.Http _http;
         private readonly CancellationTokenSource _tokenSource;
 
         private bool disposedValue;
@@ -101,26 +100,7 @@ namespace ScrapMetal
             }
 
             gateway_payload payload = JsonSerializer.Deserialize<gateway_payload>(e.Bytes);
-            _brain._sequence = payload.s;
-
-            Debug.WriteLine($"Payload received: [{payload.s}] {payload.op} | {payload.t} | {payload.d}.");
-
-            if (payload.op == 10)
-            {
-                _heart = new ScrapMetalHeart(this);
-                await _heart.FirstBeat(payload.d.GetProperty("heartbeat_interval").GetInt32(), _tokenSource.Token);
-                _heart.Beat();
-
-                await _brain.HandleGatewayConnect();
-            }
-            else if (payload.op == 0 && payload.t == "READY")
-            {
-                _brain.HandleReadyEvent(payload);
-            }
-            else if (payload.op == 9)
-            {
-                await _brain.HandleGatewayConnect(reidentify: true);
-            }
+            await _brain.HandlePayload(payload, _tokenSource.Token);
         }
 
         private void OnSpeakEasyClosed(object sender, EventArgs e)
@@ -149,7 +129,6 @@ namespace ScrapMetal
                     _tokenSource.Cancel();
                 }
 
-                _heart = null;
                 _http = null;
                 //Don't null brain or anything used by it
                 disposedValue = true;

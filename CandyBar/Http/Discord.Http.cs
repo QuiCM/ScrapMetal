@@ -11,7 +11,7 @@ namespace CandyBar
     {
         public partial class Http
         {
-            private readonly HttpClient _client;
+            protected readonly HttpClient _client;
 
             ///<summary>Generates a new HTTP connector with the given authorization</summary>
             public Http(string authToken)
