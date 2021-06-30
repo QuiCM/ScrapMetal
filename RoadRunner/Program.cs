@@ -11,7 +11,12 @@ namespace RoadRunner
     {
         static async Task Main(string[] args)
         {
-            Debug.WriteLine("RoadRunner is putting on its shoes.");
+#if DEBUG == false
+            TextWriterTraceListener consoleTrace = new(System.Console.Out);
+            Trace.Listeners.Add(consoleTrace);
+#endif
+
+            Trace.WriteLine("RoadRunner is putting on its shoes.");
 
             string authToken = null;
             if (args.Length > 0)
@@ -19,11 +24,11 @@ namespace RoadRunner
                 authToken = args[0];
             }
 
-            Debug.WriteLine($"Using commandline auth token: {authToken}");
+            Trace.WriteLine($"Using commandline auth token: {authToken}");
 
             await StayConnectedAsync(authToken);
 
-            Debug.WriteLine("RoadRunner disappearing into the sunset.");
+            Trace.WriteLine("RoadRunner disappearing into the sunset.");
         }
 
         static async Task StayConnectedAsync(string auth, ScrapMetalBrain savedBrain = null)
@@ -33,10 +38,10 @@ namespace RoadRunner
 
             // According to Discord docs: bots should wait 3-5 seconds before trying to reconnect in the event of a disconnect
             // Also this gives plenty of time for cancellations to propagate
-            Debug.WriteLine("Waiting for ScrapMetalBot to rust away.");
+            Trace.WriteLine("Waiting for ScrapMetalBot to rust away.");
             await Task.Delay(3000);
 
-            Debug.WriteLine("Building a new ScrapMetalBot!");
+            Trace.WriteLine("Building a new ScrapMetalBot!");
             // Reconnect with the same brain
             await StayConnectedAsync(auth, brain);
         }
@@ -48,7 +53,7 @@ namespace RoadRunner
                                                   .WithAuth(auth)
                                                   .WithBrain(savedBrain)
                                                   .Build();
-            Debug.WriteLine("RoadRunner has built itself a ScrapMetalBot. Pressing play now!");
+            Trace.WriteLine("RoadRunner has built itself a ScrapMetalBot. Pressing play now!");
 
             // Connect and poll. PollAsync will return once the bot has disconnected
             await scrapMetal.ConnectAsync();
@@ -59,7 +64,7 @@ namespace RoadRunner
             ScrapMetalBrain brain = scrapMetal.Brain;
             scrapMetal.Close();
 
-            Debug.WriteLine("ScrapMetal fell apart.");
+            Trace.WriteLine("ScrapMetal fell apart.");
             // Pass the brain back for re-use
             return brain;
         }

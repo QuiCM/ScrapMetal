@@ -21,11 +21,11 @@ namespace ScrapMetal
 
         internal async Task FirstBeat(int delay, CancellationToken token)
         {
-            Debug.WriteLine("ScrapMetalHeart starts beating.");
+            Trace.WriteLine("ScrapMetalHeart starts beating.");
             Random r = new();
 
             int randomizedDelay = (int)(delay * r.NextDouble());
-            Debug.WriteLine($"Waiting {randomizedDelay}ms then heartbeating. Regular heartbeat interval: {delay}ms");
+            Trace.WriteLine($"Waiting {randomizedDelay}ms then heartbeating. Regular heartbeat interval: {delay}ms");
 
             await Task.Delay(randomizedDelay, token);
             await _scrapMetal.SendAsync(JsonSerializer.Serialize(new gateway_heartbeat { d = _scrapMetal._brain.LastSequence }));
@@ -36,7 +36,7 @@ namespace ScrapMetal
         private async Task BeatAsync(int delay, CancellationToken token)
         {
             //This beat should just recursively call itself forever until the token is cancelled
-            Debug.WriteLine("Beating normally.");
+            Trace.WriteLine("Beating normally.");
 
             await Task.Delay(delay, token);
 

@@ -23,7 +23,7 @@ namespace ScrapMetal
 
         public ScrapMetalBrain()
         {
-            Debug.WriteLine("ScrapMetalBrain begins thinking.");
+            Trace.WriteLine("ScrapMetalBrain begins thinking.");
         }
 
         internal void UpdateScrapMetal(ScrapMetalBot scrapMetal)
@@ -50,7 +50,7 @@ namespace ScrapMetal
 
         internal async Task HandlePayload(gateway_payload payload, CancellationToken token)
         {
-            Debug.WriteLine($"Payload received: [{payload.s?.ToString() ?? "-"}] {payload.op} | {payload.t ?? "NO EVENT"} | {payload.d}");
+            Trace.WriteLine($"Payload received: [{payload.s?.ToString() ?? "-"}] {payload.op} | {payload.t ?? "NO EVENT"} | {payload.d}");
             _sequence = payload.s;
             switch (payload.op)
             {
@@ -142,7 +142,7 @@ namespace ScrapMetal
 
         internal void HandleReconnect()
         {
-            Debug.WriteLine("Received op 7 - reconnect. Cancelling token");
+            Trace.WriteLine("Received op 7 - reconnect. Cancelling token");
             _scrapMetal.Close();
         }
 

@@ -33,7 +33,7 @@ namespace ScrapMetal
 
         internal ScrapMetalBot(BuilderOptions options)
         {
-            Debug.WriteLine("Building a new ScrapMetalBot.");
+            Trace.WriteLine("Building a new ScrapMetalBot.");
 
             _tokenSource = options._tokenSource ?? new();
             _persistentConfig = PersistentConfiguration.Load<ScrapMetalPersistentConfig>();
@@ -64,12 +64,12 @@ namespace ScrapMetal
             string url = await _http.GetGatewayUrl(_tokenSource.Token);
             await _websocket.ConnectAsync(new Uri(url), _tokenSource.Token);
 
-            Debug.WriteLine("SpeakEasy now speaking easy.");
+            Trace.WriteLine("SpeakEasy now speaking easy.");
         }
 
         public async Task SendAsync(string message)
         {
-            Debug.WriteLine($"Sending payload: {message}.");
+            Trace.WriteLine($"Sending payload: {message}.");
             await _websocket.SendAsync(Encoding.UTF8.GetBytes(message), WebSocketMessageType.Text, _tokenSource.Token);
         }
 
@@ -110,7 +110,7 @@ namespace ScrapMetal
 
         private void OnSpeakEasyCloseRequested(object sender, EventArgs e)
         {
-            Debug.WriteLine("Conversation over. SpeakEasy shutting down.");
+            Trace.WriteLine("Conversation over. SpeakEasy shutting down.");
             CloseRequested?.Invoke(sender, e);
         }
 

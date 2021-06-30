@@ -28,7 +28,7 @@ You can read more about Synapses in the [Synapse project](Synapse/README.md)
 ## Build and Run
 You can build and run the RoadRunner project to launch a ScrapMetal instance. Note you'll need a Discord Bot auth token
 ```
-dotnet run --project ./RoadRunner/RoadRunner.csproj -- {bot token}
+dotnet run --project ./RoadRunner/RoadRunner.csproj -c Release -- {bot token}
 ```
 
 You can also build your own runner. See the [RoadRunner component](RoadRunner/Program.cs) for an example that reconnects & persists brain state.

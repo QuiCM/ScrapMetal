@@ -109,7 +109,7 @@ namespace SpeakEasy
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine($"[SpeakEasy: ERROR] {e}");
+                    Trace.WriteLine($"[SpeakEasy: ERROR] {e}");
                     //If we receive an error while receiving, the websocket will close. So invoke the close event to notify upstreams
                     CloseCompleted?.Invoke(this, EventArgs.Empty);
                     return;
