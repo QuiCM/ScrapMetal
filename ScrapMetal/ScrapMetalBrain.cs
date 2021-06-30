@@ -71,7 +71,7 @@ namespace ScrapMetal
                     }
                     else
                     {
-                        await HandleEvent(payload.t, payload.d);
+                        await HandleEvent(payload.t, payload.d, token);
                     }
                     break;
                 case 7:
@@ -80,18 +80,18 @@ namespace ScrapMetal
             }
         }
 
-        internal async Task HandleEvent(string eventType, dynamic data)
+        internal async Task HandleEvent(string eventType, dynamic data, CancellationToken token)
         {
             if (eventType == payload_event_types.MESSAGE_CREATE)
             {
                 message_object message = ((JsonElement)data).ToObject<message_object>();
-                await HandleMessage(message);
+                await HandleMessage(message, token);
             }
 
             if (eventType == payload_event_types.INTERACTION_CREATE)
             {
                 interaction_object interaction = ((JsonElement)data).ToObject<interaction_object>();
-                await _scrapMetal._http.AcknowledgeInteraction(interaction, CancellationToken.None);
+                await _scrapMetal._http.AcknowledgeInteraction(interaction, token);
 
                 message_object message = interaction.message;
                 if (interaction.data.custom_id == "__test_button_bad")
@@ -107,12 +107,12 @@ namespace ScrapMetal
                     message.embeds[0].color = 5763719; //Green
                 }
 
-                await _scrapMetal._http.PatchInteraction(interaction, message, CancellationToken.None);
-                await _scrapMetal._http.DeleteInteractionResponse(interaction, message, CancellationToken.None);
+                await _scrapMetal._http.PatchInteraction(interaction, message, token);
+                await _scrapMetal._http.DeleteInteractionResponse(interaction, message, token);
             }
         }
 
-        internal async Task HandleMessage(message_object message)
+        internal async Task HandleMessage(message_object message, CancellationToken token)
         {
             if (message.content.StartsWith("echo") && message.author.id == "164210142789894144")
             {
@@ -135,7 +135,7 @@ namespace ScrapMetal
                                       .Enable()
                             )
                         ),
-                    CancellationToken.None
+                    token
                 );
             }
         }
