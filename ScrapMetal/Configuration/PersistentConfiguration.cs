@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
@@ -28,6 +29,11 @@ namespace ScrapMetal.Configuration
             using (var sr = new StreamReader(fs))
             {
                 cfg = sr.ReadToEnd();
+            }
+
+            if (string.IsNullOrWhiteSpace(cfg))
+            {
+                return (TPersistentConfiguration)new TPersistentConfiguration().Write();
             }
 
             return JsonSerializer.Deserialize<TPersistentConfiguration>(cfg) ?? (TPersistentConfiguration)new TPersistentConfiguration().Write();
