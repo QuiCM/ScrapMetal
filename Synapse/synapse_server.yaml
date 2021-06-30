@@ -1,0 +1,192 @@
+swagger: "2.0"
+
+info:
+  description: "Documentation for the endpoints ScrapMetal exposes to manage Synapses"
+  version: "0.1"
+  title: "ScrapMetal Synapse Coordinator"
+  license:
+    name: "GNU GPL v3.0"
+    url: "https://github.com/QuiCM/ScrapMetal/blob/main/LICENSE"
+
+tags:
+- name: "Synapse"
+  description: ""
+schemes:
+- "https"
+
+paths:
+  /register/{synapse_name}:
+    post:
+      tags:
+      - "Synapse"
+      summary: "Registers a new Synapse"
+      description: "Registers a new Synapse with a specified name, base URL, and neurons with ScrapMetal"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "synapse_name"
+        description: "A name for the synapse endpoint you are providing. Data sent to the Synapse will use this name and the base URL of the Synapse"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "token"
+        description: "The Discord auth token used by the ScrapMetal instance"
+        type: "string"
+        required: true
+      - in: "body"
+        name: "registration"
+        description: "A Synapse Registration object"
+        schema:
+          $ref: "#/definitions/SynapseRegistration"
+        required: true
+      responses:
+        "200":
+          description: "Registration successful"
+          schema:
+            properties:
+              synapse_token:
+                type: "string"
+                description: "Unique token used to identify the Synapse"
+        "400":
+          description: "Synapse registration was invalid"
+        "403":
+          description: "Invalid token"
+
+  /synapse/{synapse_name}:
+    delete:
+      tags:
+      - "Synapse"
+      summary: "Deletes a Synapse"
+      description: ""
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "synapse_name"
+        description: "Name used when registering the Synapse"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "synapse_token"
+        description: "Synapse token provided during Synapse registration"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "token"
+        description: "The Discord auth token used by the ScrapMetal instance"
+        type: "string"
+        required: true
+      responses:
+        "200":
+          description: "Synapse successfully deleted"
+        "403":
+          description: "Invalid Synapse token or Discord token"
+        "404":
+          description: "Invalid Synapse name"
+    
+    patch:
+      tags:
+      - "Synapse"
+      summary: "Updates the Neurons of a Synapse registration"
+      description: ""
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "synapse_name"
+        description: "Name used when registering the Synapse"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "synapse_token"
+        description: "Synapse token provided during Synapse registration"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "token"
+        description: "The Discord auth token used by the ScrapMetal instance"
+        type: "string"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "Partial SynapseRegistration object (baseUrl is ignored if present)"
+        schema:
+          $ref: "#/definitions/SynapseRegistration"
+        required: true
+      responses:
+        "200":
+          description: "Synapse updated"
+          schema:
+            properties:
+              synapse_token:
+                type: "string"
+                description: "Unique token used to identify the Synapse"
+        "403":
+          description: "Invalid Synapse token or Discord token"
+        "404":
+          description: "Invalid Synapse name"
+          
+  /synapse/{synapse_name}/{neuron_name}:
+    post:
+      tags:
+      - "Synapse"
+      summary: "Notifies ScrapMetal of data being received from a Neuron"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "synapse_name"
+        description: "Name of the Synapse hosting the Neuron"
+        type: "string"
+        required: true
+      - in: "path"
+        name: "neuron_name"
+        description: "Name of the Neuron providing data"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "synapse_token"
+        description: "Synapse token provided during Synapse registration"
+        type: "string"
+        required: true
+      - in: "query"
+        name: "token"
+        description: "The Discord auth token used by the ScrapMetal instance"
+        type: "string"
+        required: true
+      - in: "body"
+        name: "body"
+        description: "A Json-encoded Discord message object"
+        schema:
+          $ref: "#/definitions/DiscordMessage"
+        required: true
+      responses:
+        "200":
+          description: "Success"
+      
+definitions:
+  SynapseRegistration:
+    type: "object"
+    properties:
+      baseUrl:
+        type: "string"
+        description: "The base URL of the Synapse server. "
+      neurons:
+        type: "array"
+        items:
+          $ref: "#/definitions/Neuron"
+  
+  Neuron:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      events:
+        type: "array"
+        items:
+          type: "string"
+  
+  DiscordMessage:
+    type: "object"
+    description: "A Json-encoded Discord message object"
