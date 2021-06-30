@@ -13,8 +13,6 @@ namespace ScrapMetal
     public class ScrapMetalHeart
     {
         private readonly ScrapMetalBot _scrapMetal;
-        private int _beatDelay;
-        private CancellationToken _token;
 
         internal ScrapMetalHeart(ScrapMetalBot scrapMetal)
         {
@@ -25,8 +23,6 @@ namespace ScrapMetal
         {
             Debug.WriteLine("ScrapMetalHeart starts beating.");
             Random r = new();
-            _beatDelay = delay;
-            _token = token;
 
             int randomizedDelay = (int)(delay * r.NextDouble());
             Debug.WriteLine($"Waiting {randomizedDelay}ms then heartbeating. Regular heartbeat interval: {delay}ms");
