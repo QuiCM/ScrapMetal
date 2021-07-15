@@ -3,7 +3,9 @@
   <ItemGroup>
     <ProjectReference Include="..\CandyBar\CandyBar.csproj" />
     <ProjectReference Include="..\SpeakEasy\SpeakEasy.csproj" />
+    <ProjectReference Include="..\Synapse\Synapse.csproj" />
   </ItemGroup>
+
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>

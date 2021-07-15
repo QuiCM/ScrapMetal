@@ -15,7 +15,7 @@ schemes:
 - "https"
 
 paths:
-  /register/{synapse_name}:
+  /synapse/{synapse_name}:
     post:
       tags:
       - "Synapse"
@@ -52,8 +52,7 @@ paths:
           description: "Synapse registration was invalid"
         "403":
           description: "Invalid token"
-
-  /synapse/{synapse_name}:
+          
     delete:
       tags:
       - "Synapse"

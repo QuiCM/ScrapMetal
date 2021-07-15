@@ -25,8 +25,9 @@ namespace RoadRunner
             }
 
             Trace.WriteLine($"Using commandline auth token: {authToken}");
+            await Synapse.SynapseHost.Run();
 
-            await StayConnectedAsync(authToken);
+            //await StayConnectedAsync(authToken);
 
             Trace.WriteLine("RoadRunner disappearing into the sunset.");
         }
