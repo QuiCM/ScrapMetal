@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Text.Json;
 
@@ -8,6 +5,11 @@ namespace ScrapMetal.Configuration
 {
     public class PersistentConfiguration
     {
+        public void Persist<T>(ConfigurationItem<T> configurable)
+        {
+            GetType().GetProperty(configurable._bindingName).SetValue(this, configurable.Value);
+        }
+
         public PersistentConfiguration Write()
         {
             using var fs = new FileStream("config", FileMode.Open, FileAccess.Write, FileShare.Read);
