@@ -13,7 +13,7 @@ namespace Synapse.Controllers
                                            [Required] string token,
                                            [FromBody] SynapseRegistration registration)
         {
-            return Ok(registration);
+            return Forbid();
         }
     }
 }

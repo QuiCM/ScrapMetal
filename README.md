@@ -1,6 +1,6 @@
 # ScrapMetal
 
-ScrapMetal is a Discord bot stack built in five (and a bit) pieces
+ScrapMetal is a Discord bot stack built in four (and a bit) pieces
 
 ## Components
 #### **SpeakEasy** - the communication library
@@ -15,10 +15,6 @@ CandyBar provides a minimalist wrapper around necessary Discord objects & events
 
 ScrapMetal puts the aforementioned projects into use and actually communicates with the Discord APIs
 
-#### **RoadRunner** - the launcher
-
-RoadRunner creates a ScrapMetal bot and runs it
-
 #### **Synapse** - the connector / **Neuron** - the thinker
 
 Synapses are standalone programs that connect Neurons to ScrapMetal, enabling dynamic event processing
@@ -28,13 +24,12 @@ You can read more about Synapses in the [Synapse project](Synapse/README.md)
 ## Build and Run
 You can build and run the RoadRunner project to launch a ScrapMetal instance. Note you'll need a Discord Bot auth token
 ```
-dotnet run --project ./RoadRunner/RoadRunner.csproj -c Release -- {bot token}
+dotnet run --project ./ScrapMetal/ScrapMetal.csproj -c Release -- /Discord:ApiToken=YourDiscordApiToken
 ```
 
-You can also build your own runner. See the [RoadRunner component](RoadRunner/Program.cs) for an example that reconnects & persists brain state.
-
 ## Why?
-The ScrapMetal stack is intended to be a minimalist implementation of a Discord bot, providing only the functionality required to complete a select few tasks.
+The ScrapMetal stack is intended to be a minimalist implementation of a Discord bot. It connects and that's it.
+Any functionality is intended to be added in the Synapse layer.
 
 At a high level, ScrapMetal aims to complete the following goals:
 * Be simple

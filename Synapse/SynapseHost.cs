@@ -12,13 +12,12 @@ namespace Synapse
         {
             await Task.Run(() =>
             {
-                var host = new WebHostBuilder()
+                new WebHostBuilder()
                     .UseKestrel()
                     .UseUrls("https://*:8443")
                     .UseStartup<Startup>()
-                    .Build();
-
-                host.Run();
+                    .Build()
+                .Run();
             });
         }
     }

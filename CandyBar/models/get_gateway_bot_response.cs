@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using CandyBar.models;
 
-namespace CandyBar.responses
+namespace CandyBar.models
 {
     /*
     Note: System.Text.Json does not support renaming classes in Json serialization.
